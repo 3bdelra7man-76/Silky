@@ -213,8 +213,8 @@ export function TaskItem({
               </span>
             )}
 
-            {/* Action buttons - always visible on mobile, hover-only md+ */}
-            <div className="flex items-center gap-0.5 shrink-0 md:opacity-0 md:group-hover:opacity-100 opacity-100 transition-opacity">
+            {/* Action buttons - always visible, subtle until hovered */}
+            <div className="flex items-center gap-0.5 shrink-0 opacity-40 hover:opacity-100 focus-within:opacity-100 transition-opacity">
               {!task.hasTimer && !task.completed && (
                 <Button
                   variant="ghost"
