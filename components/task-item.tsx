@@ -174,14 +174,14 @@ export function TaskItem({
 
         <div className="flex-1 min-w-0">
           {/* Task title and actions */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 min-w-0">
             {totalSubtasks > 0 && (
               <button
                 onClick={() => {
                   if (isSoundEnabled()) playSound('click')
                   setExpanded(!expanded)
                 }}
-                className="text-muted-foreground hover:text-foreground silky-transition cursor-pointer hover:scale-110"
+                className="text-muted-foreground hover:text-foreground silky-transition cursor-pointer hover:scale-110 shrink-0"
               >
                 {expanded ? (
                   <ChevronDown className="w-4 h-4" />
@@ -192,63 +192,66 @@ export function TaskItem({
             )}
             <span
               className={cn(
-                'font-medium silky-transition flex-1',
+                'font-medium silky-transition flex-1 truncate',
                 task.completed && 'line-through text-muted-foreground'
               )}
             >
               {task.title}
             </span>
-            
-            {/* Timer indicator */}
+
+            {/* Timer badge - compact */}
             {task.hasTimer && (
               <span className={cn(
-                'text-xs font-mono px-2 py-0.5 rounded-full',
-                timerComplete 
+                'text-xs font-mono px-1.5 py-0.5 rounded-full shrink-0',
+                timerComplete
                   ? 'bg-green-500/20 text-green-600 dark:text-green-400'
-                  : timerRunning 
+                  : timerRunning
                     ? 'bg-primary/20 text-primary timer-active'
                     : 'bg-muted text-muted-foreground'
               )}>
                 {formatTime(elapsed)}
               </span>
             )}
-            
-            {!task.hasTimer && !task.completed && (
+
+            {/* Action buttons - always visible on mobile, hover-only md+ */}
+            <div className="flex items-center gap-0.5 shrink-0 md:opacity-0 md:group-hover:opacity-100 opacity-100 transition-opacity">
+              {!task.hasTimer && !task.completed && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    if (isSoundEnabled()) playSound('click')
+                    setShowTimerSetup(!showTimerSetup)
+                  }}
+                  className="h-7 w-7 p-0 text-muted-foreground hover:text-foreground cursor-pointer hover:scale-110 silky-transition"
+                  title="Add timer"
+                >
+                  <Clock className="w-3.5 h-3.5" />
+                </Button>
+              )}
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => {
                   if (isSoundEnabled()) playSound('click')
-                  setShowTimerSetup(!showTimerSetup)
+                  setShowAddSubtask(!showAddSubtask)
                 }}
                 className="h-7 w-7 p-0 text-muted-foreground hover:text-foreground cursor-pointer hover:scale-110 silky-transition"
-                title="Add timer"
               >
-                <Clock className="w-4 h-4" />
+                <Plus className="w-3.5 h-3.5" />
               </Button>
-            )}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => {
-                if (isSoundEnabled()) playSound('click')
-                setShowAddSubtask(!showAddSubtask)
-              }}
-              className="h-7 w-7 p-0 text-muted-foreground hover:text-foreground cursor-pointer hover:scale-110 silky-transition"
-            >
-              <Plus className="w-4 h-4" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => {
-                if (isSoundEnabled()) playSound('click')
-                onDelete()
-              }}
-              className="h-7 w-7 p-0 text-muted-foreground hover:text-destructive cursor-pointer hover:scale-110 silky-transition"
-            >
-              <Trash2 className="w-4 h-4" />
-            </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  if (isSoundEnabled()) playSound('click')
+                  onDelete()
+                }}
+                className="h-7 w-7 p-0 text-muted-foreground hover:text-destructive cursor-pointer hover:scale-110 silky-transition"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+              </Button>
+            </div>
           </div>
 
           {/* Timer setup */}

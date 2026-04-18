@@ -15,7 +15,7 @@ export function DayDetail({ record, onClose }: DayDetailProps) {
   const completedTasks = record.tasks.filter(t => t.completed).length
 
   return (
-    <div className="glass rounded-2xl p-6 animate-in slide-in-from-right-5 duration-300">
+    <div className="glass rounded-2xl p-6 animate-in slide-in-from-right-5 duration-300 max-h-[60vh] md:max-h-none overflow-y-auto">
       <div className="flex items-start justify-between mb-6">
         <div>
           <h3 className="text-xl font-semibold">{formatDate(record.date)}</h3>
